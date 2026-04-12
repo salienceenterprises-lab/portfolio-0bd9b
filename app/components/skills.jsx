@@ -1,83 +1,78 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaTerminal } from "react-icons/fa";
+
+const container = { hidden: {}, visible: { transition: { staggerChildren: 0.04 } } };
+const item = {
+  hidden: { opacity: 0, y: 16, scale: 0.85 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 240, damping: 18 } },
+};
 
 export default function PortfolioSkills({ data }) {
-  const items = data?.skills;
-  if (!items || !Array.isArray(items) || items.length === 0) return null;
+  if (!data?.skills?.length) return null;
+
+  const colors = [
+    { bg: "rgba(255,45,85,0.08)", border: "rgba(255,45,85,0.2)", text: "#ff2d55", dot: "#ff2d55" },
+    { bg: "rgba(124,58,237,0.08)", border: "rgba(124,58,237,0.2)", text: "#7c3aed", dot: "#7c3aed" },
+  ];
 
   return (
-    <section id="skills" style={{ background: "#02030a", padding: "8rem 1.5rem", position: "relative", overflow: "hidden" }}>
-      <style>{`
-        .pp-skill-badge {
-          position: relative;
-          padding: 1rem 1.5rem;
-          background: rgba(59,130,246,0.03);
-          border: 1px solid rgba(59,130,246,0.08);
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          transition: all 0.3s ease;
-          cursor: default;
-        }
-        .pp-skill-badge::before {
-          content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 0;
-          background: linear-gradient(180deg, #3b82f6, #8b5cf6, #06b6d4);
-          transition: height 0.3s ease;
-        }
-        .pp-skill-badge:hover {
-          background: rgba(59,130,246,0.06);
-          border-color: rgba(59,130,246,0.2);
-          transform: translateY(-2px);
-        }
-        .pp-skill-badge:hover::before { height: 100%; }
-        
-        .pp-skill-text {
-          font-family: monospace;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: rgba(232,234,246,0.5);
-          transition: color 0.3s;
-        }
-        .pp-skill-badge:hover .pp-skill-text { color: #06b6d4; }
-      `}</style>
+    <section id="skills" className="relative py-28 px-6 overflow-hidden bg-[#fafafa]">
 
-      {/* Large Background Watermark */}
-      <div style={{ position: "absolute", top: "2rem", right: "2rem", fontFamily: "monospace", fontSize: "220px", fontWeight: 900, lineHeight: 1, color: "rgba(59,130,246,0.03)", pointerEvents: "none", userSelect: "none" }}>05</div>
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[14rem] font-black leading-none select-none pointer-events-none hidden lg:block"
+        style={{ color: "rgba(255,45,85,0.04)", fontVariantNumeric: "tabular-nums" }}>05</div>
 
-      {/* Decorative Gradient Orb */}
-      <div style={{ position: "absolute", top: "-100px", right: "-100px", width: "400px", height: "400px", borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.04) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div className="max-w-5xl mx-auto relative z-10">
 
-      <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        {/* Header Section */}
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} style={{ marginBottom: "4rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1rem" }}>
-            <span style={{ fontFamily: "monospace", fontSize: "11px", color: "rgba(6,182,212,0.6)", letterSpacing: "0.2em" }}>05.</span>
-            <div style={{ width: "40px", height: "1px", background: "linear-gradient(90deg, #3b82f6, transparent)" }} />
-          </div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#e8eaf6", margin: 0 }}>Stack & Tools</h2>
-          <div style={{ height: "1px", background: "linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, transparent)", maxWidth: "120px", marginTop: "1rem" }} />
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black text-white"
+            style={{ background: "#ff2d55" }}>05</div>
+          <span className="text-[10px] font-black tracking-[0.4em] uppercase" style={{ color: "#ff2d55" }}>Skills</span>
         </motion.div>
 
-        {/* Skills Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "1rem" }}>
-          {items.map((skill, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.03 }}
-            >
-              <div className="pp-skill-badge">
-                <FaTerminal style={{ fontSize: "10px", color: "rgba(139,92,246,0.4)" }} />
-                <span className="pp-skill-text">{skill}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.05 }}
+          className="text-4xl sm:text-5xl font-black tracking-tighter mb-4 uppercase leading-none"
+          style={{ color: "#0a0a0a" }}>
+          Tech Stack
+        </motion.h2>
+        <motion.div initial={{ width: 0 }} whileInView={{ width: 80 }} viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="h-1 rounded-full mb-14"
+          style={{ background: "linear-gradient(90deg, #ff2d55, #7c3aed)" }} />
+
+        <motion.div variants={container} initial="hidden" whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="flex flex-wrap gap-3">
+          {data.skills.map((skill, i) => {
+            const c = colors[i % 2];
+            return (
+              <motion.div key={`${skill}-${i}`} variants={item}
+                whileHover={{ y: -4, scale: 1.05, boxShadow: `0 8px 25px ${c.dot}30` }}
+                className="flex items-center gap-2.5 px-5 py-3 rounded-full border-2 cursor-default transition-all duration-200 bg-white"
+                style={{ borderColor: c.border, background: c.bg }}>
+                <motion.div animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 2.5 + (i % 4) * 0.4, repeat: Infinity }}
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: c.dot }} />
+                <span className="text-sm font-black uppercase tracking-wider" style={{ color: c.text }}>
+                  {skill}
+                </span>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+          viewport={{ once: true }} transition={{ delay: 0.5 }}
+          className="flex items-center gap-4 mt-14">
+          <div className="h-0.5 flex-1 rounded-full" style={{ background: "linear-gradient(90deg, #ff2d55, transparent)" }} />
+          <span className="text-[10px] font-black uppercase tracking-[0.4em]" style={{ color: "rgba(10,10,10,0.3)" }}>
+            {data.skills.length} Technologies
+          </span>
+          <div className="h-0.5 flex-1 rounded-full" style={{ background: "linear-gradient(270deg, #7c3aed, transparent)" }} />
+        </motion.div>
       </div>
     </section>
   );
