@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaPaperPlane, FaEnvelope, FaGithub, FaLinkedin, FaCheckCircle, FaCircleNotch, FaLink } from "react-icons/fa";
+import { FaPaperPlane, FaEnvelope, FaGithub, FaLinkedin, FaCheckCircle, FaCircleNotch } from "react-icons/fa";
 
 export default function PortfolioContact({ data }) {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -18,134 +18,141 @@ export default function PortfolioContact({ data }) {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ ...formData, access_key: data.web3forms_key, subject: `Portfolio Message from ${formData.name}` }),
+        body: JSON.stringify({ ...formData, access_key: data.web3forms_key, subject: `New Portfolio Message from ${formData.name}`, from_name: "Portfolio Contact Form", botcheck: "" }),
       });
       const result = await response.json();
-      if (result.success) { 
-        setStatus("success"); 
-        setFormData({ name: "", email: "", message: "" }); 
-        setTimeout(() => setStatus("idle"), 5000); 
-      } else setStatus("error");
+      if (result.success) { setStatus("success"); setFormData({ name: "", email: "", message: "" }); setTimeout(() => setStatus("idle"), 5000); }
+      else setStatus("error");
     } catch { setStatus("error"); }
   };
 
   const contactLinks = [
-    { show: data?.email, icon: FaEnvelope, label: "Email", value: data?.email, href: `mailto:${data?.email}` },
-    { show: data?.github, icon: FaGithub, label: "GitHub", value: "View Profile", href: data?.github },
-    { show: data?.linkedin, icon: FaLinkedin, label: "LinkedIn", value: "Connect", href: data?.linkedin },
-  ].filter((l) => l.show);
+    { show: data?.email, icon: FaEnvelope, label: "Email", value: data?.email, href: `mailto:${data?.email}`, color: "#ff2d55" },
+    { show: data?.github, icon: FaGithub, label: "GitHub", value: "View Profile", href: data?.github, color: "#0a0a0a" },
+    { show: data?.linkedin, icon: FaLinkedin, label: "LinkedIn", value: "Connect", href: data?.linkedin, color: "#7c3aed" },
+  ].filter(l => l.show);
 
   if (!hasForm && contactLinks.length === 0) return null;
 
   return (
-    <section id="contact" style={{ background: "#02030a", padding: "8rem 1.5rem", position: "relative", overflow: "hidden" }}>
-      <style>{`
-        .pp-contact-input {
-          width: 100%; padding: 1rem 0; background: transparent; border: none;
-          border-bottom: 1px solid rgba(59,130,246,0.1); color: #e8eaf6;
-          font-size: 14px; outline: none; transition: all 0.3s;
-        }
-        .pp-contact-input:focus { border-bottom-color: #06b6d4; }
-        .pp-input-label {
-          font-family: monospace; font-size: 10px; font-weight: 700;
-          text-transform: uppercase; letter-spacing: 0.2em; color: rgba(59,130,246,0.5);
-        }
-        .pp-contact-link {
-          display: flex; align-items: center; justify-content: space-between;
-          padding: 1.5rem 0; border-bottom: 1px solid rgba(59,130,246,0.07);
-          text-decoration: none; transition: all 0.3s;
-        }
-        .pp-contact-link:hover { padding-left: 10px; border-bottom-color: rgba(6,182,212,0.3); }
-        .pp-contact-btn {
-          background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-          color: white; border: none; padding: 1rem 2.5rem;
-          font-family: monospace; font-size: 11px; font-weight: 900;
-          text-transform: uppercase; letter-spacing: 0.2em; cursor: pointer;
-          display: inline-flex; align-items: center; gap: 12px;
-        }
-        @media (max-width: 767px) { .pp-outer-grid { display: block !important; } .pp-inner-grid { display: block !important; } }
-      `}</style>
+    <section id="contact" className="relative py-28 px-6 overflow-hidden bg-[#fafafa]">
 
-      {/* Large Background Watermark */}
-      <div style={{ position: "absolute", top: "2rem", right: "2rem", fontFamily: "monospace", fontSize: "220px", fontWeight: 900, lineHeight: 1, color: "rgba(59,130,246,0.03)", pointerEvents: "none", userSelect: "none" }}>07</div>
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[14rem] font-black leading-none select-none pointer-events-none hidden lg:block"
+        style={{ color: "rgba(255,45,85,0.04)", fontVariantNumeric: "tabular-nums" }}>07</div>
 
-      <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} style={{ marginBottom: "4rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1rem" }}>
-            <span style={{ fontFamily: "monospace", fontSize: "11px", color: "rgba(139,92,246,0.6)", letterSpacing: "0.2em" }}>07.</span>
-            <div style={{ width: "40px", height: "1px", background: "linear-gradient(90deg, #8b5cf6, transparent)" }} />
-          </div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#e8eaf6", margin: 0 }}>Get In Touch</h2>
-          <div style={{ height: "1px", background: "linear-gradient(90deg, #06b6d4, #8b5cf6, #3b82f6, transparent)", maxWidth: "120px", marginTop: "1rem" }} />
+      {/* Big gradient blob */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full blur-[120px] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, rgba(255,45,85,0.06) 0%, rgba(124,58,237,0.04) 50%, transparent 70%)" }} />
+
+      <div className="max-w-4xl mx-auto relative z-10">
+
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className={`flex items-center gap-3 mb-4 ${!hasForm ? "justify-center" : ""}`}>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black text-white"
+            style={{ background: "#ff2d55" }}>07</div>
+          <span className="text-[10px] font-black tracking-[0.4em] uppercase" style={{ color: "#ff2d55" }}>Contact</span>
         </motion.div>
 
-        <div style={{ display: "grid", gridTemplateColumns: hasForm ? "1fr 1.2fr" : "1fr", gap: "5rem" }} className="pp-outer-grid">
-          
-          {/* Contact Links Column */}
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-            <p style={{ fontSize: "15px", color: "rgba(232,234,246,0.45)", lineHeight: 1.7, marginBottom: "2.5rem", maxWidth: "400px" }}>
-              Interested in collaborating or just want to say hi? Reach out through any of these platforms.
-            </p>
-            <div style={{ borderTop: "1px solid rgba(59,130,246,0.07)" }}>
-              {contactLinks.map((link, i) => (
-                <a key={i} href={link.href} target="_blank" rel="noopener noreferrer" className="pp-contact-link group">
-                  <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-                    <link.icon style={{ color: "rgba(6,182,212,0.5)", fontSize: "16px" }} />
-                    <div>
-                      <span className="pp-input-label" style={{ display: "block", marginBottom: "2px" }}>{link.label}</span>
-                      <span style={{ fontSize: "14px", fontWeight: 700, color: "#e8eaf6" }}>{link.value}</span>
-                    </div>
-                  </div>
-                  <FaLink style={{ fontSize: "12px", color: "rgba(59,130,246,0.2)" }} className="group-hover:text-cyan-400" />
-                </a>
-              ))}
-            </div>
-          </motion.div>
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.05 }}
+          className={`text-4xl sm:text-5xl font-black tracking-tighter mb-4 uppercase leading-none ${!hasForm ? "text-center" : ""}`}
+          style={{ color: "#0a0a0a" }}>
+          Get In Touch
+        </motion.h2>
+        <motion.div initial={{ width: 0 }} whileInView={{ width: 80 }} viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className={`h-1 rounded-full mb-14 ${!hasForm ? "mx-auto" : ""}`}
+          style={{ background: "linear-gradient(90deg, #ff2d55, #7c3aed)" }} />
 
-          {/* Form Column */}
-          {hasForm && (
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}>
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "2.5rem" }}>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }} className="pp-inner-grid">
-                  <div>
-                    <label className="pp-input-label">Your Name</label>
-                    <input name="name" type="text" value={formData.name} onChange={handleChange} required className="pp-contact-input" />
-                  </div>
-                  <div>
-                    <label className="pp-input-label">Email Address</label>
-                    <input name="email" type="email" value={formData.email} onChange={handleChange} required className="pp-contact-input" />
-                  </div>
+        <div className={`grid gap-10 ${hasForm ? "grid-cols-1 lg:grid-cols-5" : "grid-cols-1 max-w-md mx-auto"}`}>
+
+          {/* Links */}
+          <motion.div initial={{ opacity: 0, x: hasForm ? -40 : 0 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            className={`${hasForm ? "lg:col-span-2" : ""} space-y-3`}>
+            {contactLinks.map((link, i) => (
+              <motion.a key={i} href={link.href} target="_blank" rel="noopener noreferrer"
+                whileHover={{ x: 5 }}
+                className="group flex items-center gap-4 p-4 rounded-2xl border-2 bg-white transition-all duration-300 hover:shadow-lg"
+                style={{ borderColor: "rgba(10,10,10,0.08)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = link.color)}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(10,10,10,0.08)")}>
+                <div className="w-11 h-11 rounded-full flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                  style={{ background: `${link.color}15`, border: `2px solid ${link.color}30` }}>
+                  <link.icon className="w-5 h-5" style={{ color: link.color }} />
                 </div>
                 <div>
-                  <label className="pp-input-label">Message</label>
-                  <textarea name="message" value={formData.message} onChange={handleChange} required rows={4} className="pp-contact-input" style={{ resize: "none" }} />
+                  <p className="text-[10px] font-black uppercase tracking-widest mb-0.5" style={{ color: "rgba(10,10,10,0.35)" }}>
+                    {link.label}
+                  </p>
+                  <p className="text-sm font-black" style={{ color: "#0a0a0a" }}>{link.value}</p>
                 </div>
-                
-                <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                  <motion.button type="submit" disabled={status === "loading" || status === "success"} className="pp-contact-btn" whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
+              </motion.a>
+            ))}
+          </motion.div>
+
+          {/* Form */}
+          {hasForm && (
+            <motion.div initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }} transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.15 }}
+              className="lg:col-span-3">
+              <div className="bg-white rounded-2xl border-2 p-8" style={{ borderColor: "rgba(10,10,10,0.08)" }}>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {["name", "email"].map((field) => (
+                      <div key={field}>
+                        <label className="block text-[10px] font-black uppercase tracking-widest mb-1.5" style={{ color: "rgba(10,10,10,0.4)" }}>
+                          {field === "name" ? "Your Name" : "Email Address"}
+                        </label>
+                        <input name={field} type={field === "email" ? "email" : "text"}
+                          value={formData[field]} onChange={handleChange} required
+                          className="w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all bg-[#fafafa]"
+                          style={{ borderColor: "rgba(10,10,10,0.1)", color: "#0a0a0a" }}
+                          onFocus={(e) => (e.target.style.borderColor = "#ff2d55")}
+                          onBlur={(e) => (e.target.style.borderColor = "rgba(10,10,10,0.1)")} />
+                      </div>
+                    ))}
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-widest mb-1.5" style={{ color: "rgba(10,10,10,0.4)" }}>
+                      Message
+                    </label>
+                    <textarea name="message" value={formData.message} onChange={handleChange} required rows={5}
+                      className="w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all resize-none bg-[#fafafa]"
+                      style={{ borderColor: "rgba(10,10,10,0.1)", color: "#0a0a0a" }}
+                      onFocus={(e) => (e.target.style.borderColor = "#ff2d55")}
+                      onBlur={(e) => (e.target.style.borderColor = "rgba(10,10,10,0.1)")} />
+                  </div>
+                  <motion.button type="submit"
+                    disabled={status === "loading" || status === "success"}
+                    whileHover={{ scale: 1.02, boxShadow: "0 8px 30px rgba(255,45,85,0.3)" }}
+                    whileTap={{ scale: 0.98 }}
+                    className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm font-black uppercase tracking-wider text-white transition-all"
+                    style={{ background: status === "success" ? "#10b981" : "#ff2d55" }}>
                     <AnimatePresence mode="wait">
                       {status === "loading" ? (
-                        <motion.span key="l" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                          <FaCircleNotch className="animate-spin" /> Sending...
+                        <motion.span key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                          className="flex items-center gap-2">
+                          <FaCircleNotch className="w-4 h-4 animate-spin" /> Sending...
                         </motion.span>
                       ) : status === "success" ? (
-                        <motion.span key="s" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                          <FaCheckCircle /> Message Sent
+                        <motion.span key="success" initial={{ y: 10, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+                          className="flex items-center gap-2">
+                          <FaCheckCircle className="w-4 h-4" /> Sent!
                         </motion.span>
                       ) : (
-                        <motion.span key="i" initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                          Transmit <FaPaperPlane />
+                        <motion.span key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                          className="flex items-center gap-2">
+                          Send Message <FaPaperPlane className="w-4 h-4" />
                         </motion.span>
                       )}
                     </AnimatePresence>
                   </motion.button>
-                  {status === "error" && <span style={{ color: "#ef4444", fontSize: "11px", fontFamily: "monospace" }}>Error. Try again.</span>}
-                </div>
-              </form>
+                </form>
+              </div>
             </motion.div>
           )}
-
         </div>
       </div>
     </section>
