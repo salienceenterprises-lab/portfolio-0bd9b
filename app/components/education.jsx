@@ -3,92 +3,93 @@ import { motion } from "framer-motion";
 import { FaGraduationCap, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function PortfolioEducation({ data }) {
-  const items = data?.education;
-  if (!items || !Array.isArray(items) || items.length === 0) return null;
+  if (!data?.education?.length) return null;
 
   return (
-    <section id="education" style={{ background: "#02030a", padding: "8rem 1.5rem", position: "relative", overflow: "hidden" }}>
-      <style>{`
-        .pp-edu-item {
-          display: grid; grid-template-columns: 100px 1fr; gap: 2rem;
-          padding: 2.5rem 0; border-bottom: 1px solid rgba(59,130,246,0.07);
-          position: relative; transition: all 0.3s;
-        }
-        .pp-edu-item:last-child { border-bottom: none; }
-        .pp-edu-item::before {
-          content: ''; position: absolute; left: 0; top: 0; width: 1px; height: 0;
-          background: linear-gradient(180deg, #3b82f6, #8b5cf6, #06b6d4);
-          transition: height 0.45s ease;
-        }
-        .pp-edu-item:hover::before { height: 100%; }
-        .pp-edu-item:hover { padding-left: 1rem; }
-        .pp-year-badge {
-          display: inline-flex; align-items: center; justify-content: center;
-          padding: 6px 10px; border: 1px solid rgba(6,182,212,0.25);
-          background: rgba(6,182,212,0.05); fontFamily: monospace;
-          font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
-          color: rgba(6,182,212,0.8); white-space: nowrap; align-self: start; margin-top: 4px;
-        }
-        @media(max-width: 640px) { .pp-edu-item { grid-template-columns: 1fr; gap: 1rem; } }
-      `}</style>
+    <section id="education" className="relative py-28 px-6 overflow-hidden bg-white">
 
-      <div style={{ position: "absolute", top: "2rem", right: "2rem", fontFamily: "monospace", fontSize: "220px", fontWeight: 900, lineHeight: 1, color: "rgba(59,130,246,0.03)", pointerEvents: "none", userSelect: "none" }}>02</div>
-      <div style={{ position: "absolute", bottom: "-80px", right: "-80px", width: "350px", height: "350px", borderRadius: "50%", background: "radial-gradient(circle, rgba(139,92,246,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[14rem] font-black leading-none select-none pointer-events-none hidden lg:block"
+        style={{ color: "rgba(255,45,85,0.04)", fontVariantNumeric: "tabular-nums" }}>02</div>
 
-      <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} style={{ marginBottom: "4rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1rem" }}>
-            <span style={{ fontFamily: "monospace", fontSize: "11px", color: "rgba(6,182,212,0.6)", letterSpacing: "0.2em" }}>02.</span>
-            <div style={{ width: "40px", height: "1px", background: "linear-gradient(90deg, #3b82f6, transparent)" }} />
-          </div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#e8eaf6", margin: 0 }}>Education</h2>
-          <div style={{ height: "1px", background: "linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, transparent)", maxWidth: "120px", marginTop: "1rem" }} />
+      <div className="max-w-4xl mx-auto relative z-10">
+
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black text-white"
+            style={{ background: "#7c3aed" }}>02</div>
+          <span className="text-[10px] font-black tracking-[0.4em] uppercase" style={{ color: "#7c3aed" }}>Education</span>
         </motion.div>
 
-        <div>
-          {items.map((edu, i) => (
-            <motion.div key={i} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.08 }}>
-              <div className="pp-edu-item">
-                {/* Year */}
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.05 }}
+          className="text-4xl sm:text-5xl font-black tracking-tighter mb-4 uppercase leading-none"
+          style={{ color: "#0a0a0a" }}>
+          Credentials
+        </motion.h2>
+        <motion.div initial={{ width: 0 }} whileInView={{ width: 80 }} viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="h-1 rounded-full mb-14"
+          style={{ background: "linear-gradient(90deg, #7c3aed, #ff2d55)" }} />
+
+        <div className="space-y-5">
+          {data.education.map((edu, index) => (
+            <motion.div key={index}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.5, delay: index * 0.08, type: "spring", stiffness: 120 }}
+              whileHover={{ y: -3 }}
+              className="group relative p-7 rounded-2xl border-2 bg-white transition-all duration-300 hover:shadow-xl"
+              style={{ borderColor: "rgba(10,10,10,0.08)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#7c3aed")}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(10,10,10,0.08)")}>
+
+              {/* Top color bar */}
+              <div className="absolute top-0 left-8 right-8 h-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{ background: "linear-gradient(90deg, #7c3aed, #ff2d55)" }} />
+
+              <div className="absolute right-6 top-5 text-5xl font-black select-none leading-none"
+                style={{ color: "rgba(124,58,237,0.06)" }}>
+                {String(index + 1).padStart(2, "0")}
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
                 <div>
-                  <span className="pp-year-badge">{edu.period || edu.year || edu.graduationYear || edu.years || "—"}</span>
-                </div>
-                {/* Content */}
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
-                    <FaGraduationCap style={{ color: "rgba(59,130,246,0.6)", fontSize: "14px" }} />
-                    <h3 style={{ fontSize: "17px", fontWeight: 800, color: "#e8eaf6", margin: 0, letterSpacing: "-0.02em" }}>
-                      {edu.degree || edu.qualification || edu.field || edu.program}
-                    </h3>
+                  <h3 className="text-lg font-black uppercase tracking-tight mb-1.5 group-hover:text-[#7c3aed] transition-colors"
+                    style={{ color: "#0a0a0a" }}>{edu.degree}</h3>
+                  <div className="flex items-center gap-2">
+                    <FaGraduationCap className="w-3.5 h-3.5" style={{ color: "#7c3aed" }} />
+                    <span className="text-sm font-black" style={{ color: "#7c3aed" }}>{edu.institution}</span>
                   </div>
-                  <p style={{ fontSize: "13px", fontWeight: 600, color: "rgba(59,130,246,0.8)", margin: "0 0 10px" }}>
-                    {edu.institution || edu.school || edu.university}
-                  </p>
-                  {(edu.location || edu.city) && (
-                    <p style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "rgba(232,234,246,0.35)", margin: "0 0 8px" }}>
-                      <FaMapMarkerAlt style={{ fontSize: "10px" }} /> {edu.location || edu.city}
-                    </p>
-                  )}
-                  {edu.description && (
-                    <p style={{ fontSize: "13px", color: "rgba(232,234,246,0.45)", lineHeight: 1.65, margin: 0 }}>{edu.description}</p>
-                  )}
-                  {(edu.gpa || edu.grade || edu.result) && (
-                    <p style={{ fontFamily: "monospace", fontSize: "11px", color: "rgba(6,182,212,0.6)", marginTop: "8px", fontWeight: 600 }}>
-                      GPA: {edu.gpa || edu.grade || edu.result}
-                    </p>
-                  )}
-                  {Array.isArray(edu.achievements) && edu.achievements.filter(Boolean).length > 0 && (
-                    <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0", display: "flex", flexDirection: "column", gap: "6px" }}>
-                      {edu.achievements.filter(Boolean).map((a, j) => (
-                        <li key={j} style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13px", color: "rgba(232,234,246,0.45)", lineHeight: 1.6 }}>
-                          <div style={{ width: "5px", height: "5px", background: "rgba(59,130,246,0.7)", transform: "rotate(45deg)", marginTop: "6px", flexShrink: 0 }} />
-                          {a}
-                        </li>
-                      ))}
-                    </ul>
+                </div>
+                <div className="flex flex-col items-start sm:items-end gap-1.5 flex-shrink-0">
+                  <span className="text-xs font-black px-3 py-1.5 rounded-full"
+                    style={{ background: "rgba(124,58,237,0.08)", color: "#7c3aed", border: "1.5px solid rgba(124,58,237,0.2)" }}>
+                    {edu.period}
+                  </span>
+                  {edu.location && (
+                    <span className="flex items-center gap-1 text-[11px] font-medium" style={{ color: "rgba(10,10,10,0.4)" }}>
+                      <FaMapMarkerAlt className="w-2.5 h-2.5" /> {edu.location}
+                    </span>
                   )}
                 </div>
               </div>
+
+              {edu.description && (
+                <p className="text-sm leading-relaxed mb-4" style={{ color: "rgba(10,10,10,0.55)" }}>{edu.description}</p>
+              )}
+
+              {edu.achievements?.length > 0 && (
+                <ul className="space-y-2">
+                  {edu.achievements.filter(a => a?.trim()).map((a, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm" style={{ color: "rgba(10,10,10,0.55)" }}>
+                      <div className="mt-1.5 w-2 h-2 rounded-full flex-shrink-0" style={{ background: "#7c3aed" }} />
+                      {a}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </motion.div>
           ))}
         </div>
