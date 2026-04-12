@@ -1,142 +1,117 @@
 "use client";
 import { motion } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt, FaCode } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function PortfolioProjects({ data }) {
-  const items = data?.projects;
-  if (!items || !Array.isArray(items) || items.length === 0) return null;
+  if (!data?.projects?.length) return null;
 
   return (
-    <section id="projects" style={{ background: "#02030a", padding: "8rem 1.5rem", position: "relative", overflow: "hidden" }}>
-      <style>{`
-        .pp-project-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 2px;
-          background: rgba(59,130,246,0.05);
-        }
-        .pp-project-card {
-          background: #02030a;
-          position: relative;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          border: 1px solid transparent;
-        }
-        .pp-project-card:hover { 
-          background: rgba(59,130,246,0.02);
-          border-color: rgba(59,130,246,0.1);
-        }
-        .pp-project-card::before {
-          content: ''; position: absolute; left: 0; top: 0; width: 0; height: 1px;
-          background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
-          transition: width 0.45s ease;
-          z-index: 10;
-        }
-        .pp-project-card:hover::before { width: 100%; }
-        
-        .pp-proj-link {
-          display: inline-flex; align-items: center; gap: 8px;
-          font-family: monospace; font-size: 11px; font-weight: 700;
-          text-transform: uppercase; letter-spacing: 0.1em;
-          color: rgba(232,234,246,0.4); transition: all 0.3s;
-          text-decoration: none;
-        }
-        .pp-proj-link:hover { color: #06b6d4; transform: translateY(-1px); }
+    <section id="projects" className="relative py-28 px-6 overflow-hidden bg-white">
 
-        .pp-img-container {
-          position: relative; height: 200px; width: 100%; overflow: hidden;
-          background: #05070a;
-        }
-        .pp-img-overlay {
-          absolute; inset: 0; 
-          background: linear-gradient(to bottom, transparent 20%, #02030a);
-          z-index: 2;
-        }
-        
-        @media(max-width: 640px) { .pp-project-grid { grid-template-columns: 1fr; } }
-      `}</style>
+      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[14rem] font-black leading-none select-none pointer-events-none hidden lg:block"
+        style={{ color: "rgba(124,58,237,0.04)", fontVariantNumeric: "tabular-nums" }}>04</div>
 
-      {/* Large Background Watermark */}
-      <div style={{ position: "absolute", top: "2rem", right: "2rem", fontFamily: "monospace", fontSize: "220px", fontWeight: 900, lineHeight: 1, color: "rgba(59,130,246,0.03)", pointerEvents: "none", userSelect: "none" }}>04</div>
+      <div className="max-w-5xl mx-auto relative z-10">
 
-      <div style={{ maxWidth: "1280px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }} style={{ marginBottom: "4rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "1rem" }}>
-            <span style={{ fontFamily: "monospace", fontSize: "11px", color: "rgba(6,182,212,0.6)", letterSpacing: "0.2em" }}>04.</span>
-            <div style={{ width: "40px", height: "1px", background: "linear-gradient(90deg, #06b6d4, transparent)" }} />
-          </div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 900, letterSpacing: "-0.04em", color: "#e8eaf6", margin: 0 }}>Projects</h2>
-          <div style={{ height: "1px", background: "linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4, transparent)", maxWidth: "120px", marginTop: "1rem" }} />
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="flex items-center gap-3 mb-4">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-black text-white"
+            style={{ background: "#7c3aed" }}>04</div>
+          <span className="text-[10px] font-black tracking-[0.4em] uppercase" style={{ color: "#7c3aed" }}>Projects</span>
         </motion.div>
 
-        <div className="pp-project-grid">
-          {items.map((proj, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}>
-              <div className="pp-project-card group">
-                
-                {/* Image or Fallback Header */}
-                {(proj.imageBase64 || proj.image) ? (
-                  <div className="pp-img-container">
-                    <img
-                      src={proj.imageBase64 || proj.image}
-                      alt={proj.title || proj.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%) contrast(1.1)" }}
-                    />
-                    <div className="pp-img-overlay" style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 20%, #02030a)" }} />
+        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.05 }}
+          className="text-4xl sm:text-5xl font-black tracking-tighter mb-4 uppercase leading-none"
+          style={{ color: "#0a0a0a" }}>
+          Built Work
+        </motion.h2>
+        <motion.div initial={{ width: 0 }} whileInView={{ width: 80 }} viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="h-1 rounded-full mb-14"
+          style={{ background: "linear-gradient(90deg, #7c3aed, #ff2d55)" }} />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data.projects.map((proj, index) => (
+            <motion.div key={index}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.07, type: "spring", stiffness: 120 }}
+              whileHover={{ y: -6 }}
+              className="group rounded-2xl border-2 bg-white overflow-hidden transition-all duration-300 hover:shadow-2xl"
+              style={{ borderColor: "rgba(10,10,10,0.08)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#7c3aed")}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(10,10,10,0.08)")}>
+
+              {proj.imageBase64 ? (
+                <div className="relative h-44 overflow-hidden">
+                  <img src={proj.imageBase64} alt={proj.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent" />
+                  <div className="absolute top-3 right-3 text-[10px] font-black px-2 py-1 rounded-full text-white"
+                    style={{ background: "rgba(0,0,0,0.5)" }}>
+                    {String(index + 1).padStart(2, "0")}
                   </div>
-                ) : (
-                  <div style={{ padding: "2rem 2rem 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <div style={{ fontFamily: "monospace", fontSize: "40px", fontWeight: 900, color: "rgba(59,130,246,0.05)", lineHeight: 1 }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-                    <FaCode style={{ color: "rgba(59,130,246,0.2)", fontSize: "20px" }} />
-                  </div>
-                )}
-
-                {/* Content */}
-                <div style={{ padding: "1.5rem 2rem 2.5rem", flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                  <h3 style={{ fontSize: "18px", fontWeight: 800, color: "#e8eaf6", margin: "0 0 10px", letterSpacing: "-0.02em" }}>
-                    {proj.title || proj.name}
-                  </h3>
-                  
-                  {proj.description && (
-                    <p style={{ fontSize: "13px", color: "rgba(232,234,246,0.45)", lineHeight: 1.6, margin: "0 0 1.5rem" }}>
-                      {proj.description}
-                    </p>
-                  )}
-
-                  {/* Tech Stack */}
-                  {(() => {
-                    const stack = proj.stack || proj.tags || proj.technologies || proj.tech;
-                    if (!Array.isArray(stack) || stack.length === 0) return null;
-                    return (
-                      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "2rem", marginTop: "auto" }}>
-                        {stack.filter(t => t?.trim()).map((t, j) => (
-                          <span key={j} style={{ fontSize: "9px", fontFamily: "monospace", color: "rgba(6,182,212,0.7)", background: "rgba(6,182,212,0.05)", padding: "3px 7px", border: "1px solid rgba(6,182,212,0.1)" }}>
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    );
-                  })()}
-
-                  {/* Links */}
-                  <div style={{ display: "flex", gap: "20px" }}>
-                    {(proj.github || proj.githubUrl || proj.repo) && (
-                      <a href={proj.github || proj.githubUrl || proj.repo} target="_blank" rel="noopener noreferrer" className="pp-proj-link">
-                        <FaGithub style={{ fontSize: "14px" }} /> Code
+                  <div className="absolute bottom-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                    {proj.github && (
+                      <a href={proj.github} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black text-white rounded-full"
+                        style={{ background: "#0a0a0a" }} onClick={(e) => e.stopPropagation()}>
+                        <FaGithub className="w-3 h-3" /> Code
                       </a>
                     )}
-                    {(proj.demo || proj.liveUrl || proj.live || proj.url || proj.link) && (
-                      <a href={proj.demo || proj.liveUrl || proj.live || proj.url || proj.link} target="_blank" rel="noopener noreferrer" className="pp-proj-link">
-                        <FaExternalLinkAlt style={{ fontSize: "11px" }} /> Live
+                    {proj.demo && (
+                      <a href={proj.demo} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-black text-white rounded-full"
+                        style={{ background: "#7c3aed" }} onClick={(e) => e.stopPropagation()}>
+                        <FaExternalLinkAlt className="w-2.5 h-2.5" /> Live
                       </a>
                     )}
                   </div>
                 </div>
+              ) : (
+                <div className="relative h-20 flex items-center justify-between px-6 overflow-hidden"
+                  style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.08), rgba(255,45,85,0.05))" }}>
+                  <div className="text-4xl font-black select-none leading-none"
+                    style={{ color: "rgba(124,58,237,0.12)" }}>
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+                  <div className="flex gap-3">
+                    {proj.github && (
+                      <a href={proj.github} target="_blank" rel="noopener noreferrer"
+                        className="transition-opacity hover:opacity-60" style={{ color: "rgba(10,10,10,0.35)" }}>
+                        <FaGithub className="w-4 h-4" />
+                      </a>
+                    )}
+                    {proj.demo && (
+                      <a href={proj.demo} target="_blank" rel="noopener noreferrer"
+                        className="transition-opacity hover:opacity-60" style={{ color: "rgba(10,10,10,0.35)" }}>
+                        <FaExternalLinkAlt className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <div className="p-6">
+                <h3 className="text-base font-black uppercase tracking-tight mb-2 group-hover:text-[#7c3aed] transition-colors"
+                  style={{ color: "#0a0a0a" }}>{proj.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "rgba(10,10,10,0.5)" }}>{proj.description}</p>
+
+                {proj.stack?.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-black/[0.06]">
+                    {proj.stack.filter(t => t?.trim()).map((tech) => (
+                      <span key={tech}
+                        className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full"
+                        style={{ color: "#7c3aed", background: "rgba(124,58,237,0.07)", border: "1px solid rgba(124,58,237,0.15)" }}>
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
